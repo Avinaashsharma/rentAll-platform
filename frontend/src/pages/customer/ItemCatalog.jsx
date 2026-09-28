@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { toast } from 'react-hot-toast';
-import { Search, SlidersHorizontal, X, Package, ShoppingCart, ChevronDown, Truck, Zap, Activity, Wind, Shield, Box, Wrench } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Package, ShoppingCart, ChevronDown, Truck, Zap, Activity, Wind, Shield, Box, Wrench, Plus, Check } from 'lucide-react';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
@@ -8,6 +8,7 @@ import { StatusBadge } from '../../components/item/ItemBadges';
 import BookingModal from '../../components/rental/BookingModal';
 import { fetchItems } from '../../services/itemService';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 import { useNavigate, Link } from 'react-router-dom';
 import useRestoredPage from '../../hooks/useRestoredPage';
 
@@ -41,6 +42,7 @@ const CATEGORIES = [
 
 const ItemCatalog = () => {
   const { isAuthenticated } = useAuth();
+  const { addItem, isInCart } = useCart();
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]);
@@ -110,6 +112,21 @@ const ItemCatalog = () => {
       return;
     }
     setBookingTarget(item);
+  };
+
+  const handleAddToCart = async (e, item) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      toast.error('Please log in to add items to cart.');
+      navigate('/login');
+      return;
+    }
+    try {
+      await addItem(item._id);
+      toast.success(`${item.name} added to cart!`);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to add to cart.');
+    }
   };
 
   return (
@@ -273,15 +290,37 @@ const ItemCatalog = () => {
                     </div>
                   </div>
 
-                  {/* Book Button */}
-                  <button
-                    onClick={(e) => { e.stopPropagation(); handleBook(item); }}
-                    className="mt-1 sm:mt-2 w-full relative z-10 group/btn flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[11px] sm:text-sm font-bold rounded-lg sm:rounded-xl overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
-                  >
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
-                    <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 relative z-10 group-hover/btn:-rotate-12 transition-transform duration-300" />
-                    <span className="relative z-10 tracking-wide">Book Now</span>
-                  </button>
+                  {/* Action Buttons */}
+                  <div className="mt-1 sm:mt-2 flex gap-1.5 sm:gap-2">
+                    {/* Book Button */}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleBook(item); }}
+                      className="flex-1 relative z-10 group/btn flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[11px] sm:text-sm font-bold rounded-lg sm:rounded-xl overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                    >
+                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
+                      <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 relative z-10 group-hover/btn:-rotate-12 transition-transform duration-300" />
+                      <span className="relative z-10 tracking-wide hidden sm:inline">Book Now</span>
+                    </button>
+
+                    {/* Add to Cart Button */}
+                    <button
+                      onClick={(e) => handleAddToCart(e, item)}
+                      disabled={isInCart(item._id)}
+                      className={`relative z-10 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 text-[11px] sm:text-sm font-bold rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 active:scale-95 ${
+                        isInCart(item._id)
+                          ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 cursor-default'
+                          : 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-600 hover:-translate-y-0.5'
+                      }`}
+                      title={isInCart(item._id) ? 'Already in cart' : 'Add to cart'}
+                    >
+                      {isInCart(item._id) ? (
+                        <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      ) : (
+                        <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                      )}
+                      <span className="hidden sm:inline">{isInCart(item._id) ? 'In Cart' : 'Cart'}</span>
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             ))}

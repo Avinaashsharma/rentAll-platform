@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Pencil, Trash2, Package, ChevronLeft, ChevronRight, X, DollarSign, Tag, FileText, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Pencil, Trash2, Package, ChevronLeft, ChevronRight, X, DollarSign, Tag, FileText, ShoppingCart, Plus, Check } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
 import { StatusBadge, ConditionBadge } from '../../components/item/ItemBadges';
@@ -10,11 +10,13 @@ import ItemForm from '../../components/item/ItemForm';
 import BookingModal from '../../components/rental/BookingModal';
 import { fetchItemById, deleteItem } from '../../services/itemService';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
 
 const ItemDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated, isAdmin, isStaff } = useAuth();
+  const { addItem, isInCart } = useCart();
   const canManage = isAdmin || isStaff;
 
   const [item, setItem] = useState(null);
@@ -64,6 +66,20 @@ const ItemDetail = () => {
       return;
     }
     setBookingTarget(item);
+  };
+
+  const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      toast.error('Please log in to add items to cart.');
+      navigate('/login');
+      return;
+    }
+    try {
+      await addItem(item._id);
+      toast.success(`${item.name} added to cart!`);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to add to cart.');
+    }
   };
 
   if (isLoading) {
@@ -195,14 +211,30 @@ const ItemDetail = () => {
               <div className="flex flex-col mt-2 sm:mt-0">
                 {/* Book Now Button (customer-facing) */}
                 {!canManage && item.status === 'available' && (
-                  <div className="order-1 sm:order-3 mb-4 sm:mb-0 sm:mt-4 shrink-0 relative z-10">
+                  <div className="order-1 sm:order-3 mb-4 sm:mb-0 sm:mt-4 shrink-0 relative z-10 flex gap-3">
                     <button
                       onClick={handleBook}
-                      className="w-full relative group/btn flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-3.5 sm:py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm sm:text-base font-bold rounded-xl overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                      className="flex-1 relative group/btn flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-3.5 sm:py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm sm:text-base font-bold rounded-xl overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
                     >
                       <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
                       <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 relative z-10 group-hover/btn:-rotate-12 transition-transform duration-300" />
                       <span className="relative z-10 tracking-wide">Book Now</span>
+                    </button>
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={isInCart(item._id)}
+                      className={`flex items-center justify-center gap-2 px-4 sm:px-5 py-3.5 sm:py-2.5 text-sm sm:text-base font-bold rounded-xl transition-all duration-300 active:scale-95 ${
+                        isInCart(item._id)
+                          ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 cursor-default'
+                          : 'bg-slate-800 border border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-600 hover:-translate-y-0.5'
+                      }`}
+                      title={isInCart(item._id) ? 'Already in cart' : 'Add to cart'}
+                    >
+                      {isInCart(item._id) ? (
+                        <><Check className="h-4 w-4 sm:h-5 sm:w-5" /><span>In Cart</span></>
+                      ) : (
+                        <><Plus className="h-4 w-4 sm:h-5 sm:w-5" /><span>Add to Cart</span></>
+                      )}
                     </button>
                   </div>
                 )}

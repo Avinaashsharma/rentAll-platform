@@ -12,6 +12,7 @@ const CustomerLayout = () => {
   let title = 'Dashboard';
   if (location.pathname.startsWith('/catalog'))    title = 'Item Catalog';
   else if (location.pathname.startsWith('/my-rentals')) title = 'My Rentals';
+  else if (location.pathname.startsWith('/cart')) title = 'Cart';
 
   return (
     <div className="flex min-h-screen bg-[#EBE8E1]">

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import PublicLayout from './layouts/PublicLayout';
 import ProtectedLayout from './layouts/ProtectedLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -18,6 +19,7 @@ import VerifyEmail from './pages/public/VerifyEmail';
 import CustomerDashboard from './pages/customer/Dashboard';
 import ItemCatalog from './pages/customer/ItemCatalog';
 import MyRentals from './pages/customer/MyRentals';
+import CartPage from './pages/customer/Cart';
 
 // Admin pages
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -56,6 +58,7 @@ const NotFound = () => (
 function App() {
   return (
     <AuthProvider>
+      <CartProvider>
       <Router>
         <Toaster
           position="top-right"
@@ -99,6 +102,7 @@ function App() {
               <Route path="/catalog/:id" element={<ItemDetail />} />
               <Route path="/my-rentals"      element={<MyRentals />} />
               <Route path="/my-rentals/:id"  element={<RentalDetail />} />
+              <Route path="/cart"            element={<CartPage />} />
             </Route>
           </Route>
 
@@ -135,6 +139,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

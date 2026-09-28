@@ -3,7 +3,8 @@ import { NavLink } from 'react-router-dom';
 import {
   Home,
   Package,
-  Calendar
+  Calendar,
+  ShoppingCart
 } from 'lucide-react';
 
 const CustomerSidebar = ({ mobileOpen, setMobileOpen }) => {
@@ -11,6 +12,7 @@ const CustomerSidebar = ({ mobileOpen, setMobileOpen }) => {
     { label: 'Dashboard', href: '/dashboard', icon: Home, exact: true },
     { label: 'Browse Items', href: '/catalog', icon: Package },
     { label: 'My Rentals', href: '/my-rentals', icon: Calendar },
+    { label: 'Cart', href: '/cart', icon: ShoppingCart },
   ];
 
   return (

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Package, LogOut, Menu } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Package, LogOut, Menu, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import Button from '../ui/Button';
+import { useCart } from '../../context/CartContext';
 
 const CustomerHeader = ({ title, setMobileOpen }) => {
   const { user, logout } = useAuth();
+  const { itemCount } = useCart();
 
   return (
     <header className="border-b border-orange-300 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 sticky top-0 z-30 shrink-0">
@@ -35,6 +37,20 @@ const CustomerHeader = ({ title, setMobileOpen }) => {
         </div>
 
         <div className="flex items-center gap-3.5">
+          {/* Cart icon with badge */}
+          <Link
+            to="/cart"
+            className="relative p-2 rounded-lg bg-white/10 border border-white/10 hover:bg-orange-500/20 hover:border-orange-500/30 text-white/80 hover:text-orange-200 transition-all duration-200 active:scale-95"
+            title="Shopping Cart"
+          >
+            <ShoppingCart className="h-4 w-4" />
+            {itemCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 rounded-full bg-orange-500 text-white text-[10px] font-bold shadow-lg animate-[scale-in_0.2s_ease-out]">
+                {itemCount > 99 ? '99+' : itemCount}
+              </span>
+            )}
+          </Link>
+
           <span className="text-[13px] font-medium text-orange-100 hidden sm:block">{user?.name}</span>
           <button
               onClick={logout}
@@ -50,3 +66,4 @@ const CustomerHeader = ({ title, setMobileOpen }) => {
 };
 
 export default CustomerHeader;
+
