@@ -291,18 +291,18 @@ const Cart = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-slate-900 border border-slate-800 rounded-xl p-5 sticky top-20"
+              className="rounded-xl p-3 sm:p-5 sticky top-20"
             >
-              <h2 className="text-lg font-bold text-slate-100 mb-5 pb-3 border-b border-slate-800">
+              <h2 className="text-base sm:text-lg font-bold text-slate-100 mb-3 sm:mb-5 pb-2 sm:pb-3 border-b border-slate-800">
                 Order Summary
               </h2>
 
-              <div className="space-y-3 mb-5">
+              <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-5">
                 {items.map((entry) => {
                   const item = entry.item;
                   if (!item) return null;
                   return (
-                    <div key={item._id} className="flex justify-between text-sm">
+                    <div key={item._id} className="flex justify-between text-[11px] sm:text-sm">
                       <span className="text-slate-400 truncate pr-2 flex-1">
                         {item.name} × {entry.quantity}
                       </span>
@@ -314,31 +314,31 @@ const Cart = () => {
                 })}
               </div>
 
-              <div className="border-t border-slate-800 pt-4 space-y-3">
-                <div className="flex justify-between text-sm">
+              <div className="border-t border-slate-800 pt-3 sm:pt-4 space-y-2 sm:space-y-3">
+                <div className="flex justify-between text-[11px] sm:text-sm">
                   <span className="text-slate-400">Daily Rental Total</span>
                   <span className="text-slate-200 font-bold">₹{subtotal.toLocaleString('en-IN')}/day</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-[11px] sm:text-sm">
                   <span className="text-slate-400">Total Deposit</span>
                   <span className="text-slate-200 font-bold">₹{totalDeposit.toLocaleString('en-IN')}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-[11px] sm:text-sm">
                   <span className="text-slate-400">Items</span>
                   <span className="text-slate-200 font-bold">{itemCount}</span>
                 </div>
               </div>
 
-              <div className="border-t border-slate-800 mt-4 pt-4">
-                <div className="flex justify-between mb-5">
-                  <span className="text-base font-bold text-slate-100">Estimated Total</span>
-                  <span className="text-xl font-black text-orange-500">
+              <div className="border-t border-slate-800 mt-3 sm:mt-4 pt-3 sm:pt-4">
+                <div className="flex justify-between mb-3 sm:mb-5">
+                  <span className="text-[13px] sm:text-base font-bold text-slate-100">Estimated Total</span>
+                  <span className="text-base sm:text-xl font-black text-orange-500">
                     ₹{subtotal.toLocaleString('en-IN')}
-                    <span className="text-xs font-semibold text-slate-400 ml-0.5">/day</span>
+                    <span className="text-[10px] sm:text-xs font-semibold text-slate-400 ml-0.5">/day</span>
                   </span>
                 </div>
 
-                <p className="text-[11px] text-slate-500 text-center leading-relaxed">
+                <p className="text-[10px] sm:text-[11px] text-slate-500 text-center leading-relaxed">
                   Final total will be calculated based on your rental period at booking time.
                 </p>
               </div>
