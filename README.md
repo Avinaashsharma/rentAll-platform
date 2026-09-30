@@ -140,22 +140,6 @@ rentall/
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** >= 18.x
-- **MongoDB** : Atlas URI or local instance
-- **Cloudinary** account (for image uploads)
-- **Brevo** account (for transactional emails)
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/aveenavin/rentAll-platform
-cd rentAll-platform
-```
-
 ### Install All Dependencies
 
 ```bash
@@ -172,18 +156,6 @@ npm install
 # Frontend
 cd frontend
 npm install
-```
-
-### Configure Environment Variables
-
-```bash
-# Backend
-cp backend/.env.example backend/.env
-# Edit backend/.env with your values
-
-# Frontend
-cp frontend/.env.example frontend/.env
-# Edit frontend/.env with your values
 ```
 
 ### Run the Project Locally
