@@ -291,23 +291,9 @@ The following security measures are implemented in the current codebase:
 
 ---
 
-## Production Deployment
 
-### Architecture
 
-```
-┌──────────────┐     ┌───────────────┐     ┌────────────────┐
-│   Vercel     │────▶│    Render     │────▶│  MongoDB Atlas │
-│  (Frontend)  │     │   (Backend)   │     │   (Database)   │
-└──────────────┘     └───────┬───────┘     └────────────────┘
-                             │
-                    ┌────────┴────────┐
-                    │                 │
-              ┌─────▼─────┐   ┌──────▼──────┐
-              │ Cloudinary │   │    Brevo    │
-              │  (Images)  │   │   (Email)   │
-              └───────────┘   └─────────────┘
-```
+## Production deployment
 
 ### Backend → Render
 
