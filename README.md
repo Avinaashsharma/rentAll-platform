@@ -314,15 +314,7 @@ The following security measures are implemented in the current codebase:
 1. Go to **Render Dashboard → New → Web Service** → connect your repository.
 2. Set **Root Directory** to `backend`, **Build Command** to `npm install`, **Start Command** to `npm start`.
 3. Add all environment variables from `backend/.env.production.example`.
-4. Key variables to set:
-   - `NODE_ENV=production`
-   - `MONGO_URI` : your MongoDB Atlas connection string
-   - `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` : unique random secrets
-   - `CLIENT_URL` : your deployed Vercel frontend URL
-   - `COOKIE_SAME_SITE=none` : required for cross-domain cookies
-   - `CLOUDINARY_*` : your Cloudinary credentials
-   - `BREVO_*` : your Brevo API key and sender details
-   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` : initial admin credentials
+
 
 ### Frontend → Vercel
 
@@ -340,7 +332,7 @@ The `vercel.json` in the frontend directory handles SPA routing rewrites.
 | Backend alive      | `GET https://your-backend.onrender.com/health` → `{"status":"ok"}`          |
 | Database connected | Server logs show `MongoDB connected: ...`                                   |
 | Auth flow works    | Register → verify email → login → check cookies in DevTools                |
-| Image uploads      | Create an item with images → verify Cloudinary URLs load                    |
+|
 | No source maps     | DevTools → Sources → no `.jsx` files visible                                |
 | Error handling     | Hit a bad route → response is `{"status":"error","message":"..."}` (no stack trace) |
 
