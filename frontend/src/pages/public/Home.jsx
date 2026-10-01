@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Calendar, Zap, ArrowRight, Package, TrendingUp, Users } from 'lucide-react';
+import { ShieldCheck, Calendar, Zap, ArrowRight, Package, TrendingUp, Users, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const fadeInUp = {
@@ -128,6 +128,15 @@ const Home = () => {
                 </span>
               </Link>
             </div>
+
+            {/* Explore Items CTA */}
+            <Link
+              to="/catalog"
+              className="group flex items-center justify-center shrink-0 flex-nowrap gap-1.5 sm:gap-2.5 px-3 py-3 sm:px-8 sm:py-3.5 rounded-xl bg-white/5 hover:bg-orange-500/10 text-slate-300 hover:text-orange-500 font-semibold text-[13px] sm:text-base backdrop-blur-md border border-white/5 hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-black/20"
+            >
+              <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+              <span className="whitespace-nowrap">Explore&nbsp;Items</span>
+            </Link>
 
             {/* Ghost CTA */}
             <Link

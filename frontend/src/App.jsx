@@ -85,6 +85,8 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="check-email" element={<CheckEmail />} />
             <Route path="verify-email" element={<VerifyEmail />} />
+            <Route path="catalog" element={<ItemCatalog />} />
+            <Route path="catalog/:id" element={<ItemDetail />} />
             <Route path="privacy" element={<PrivacyPolicy />} />
             <Route path="terms" element={<TermsConditions />} />
             <Route path="refund" element={<RefundPolicy />} />
@@ -98,8 +100,6 @@ function App() {
           >
             <Route element={<CustomerLayout />}>
               <Route path="/dashboard" element={<CustomerDashboard />} />
-              <Route path="/catalog"   element={<ItemCatalog />} />
-              <Route path="/catalog/:id" element={<ItemDetail />} />
               <Route path="/my-rentals"      element={<MyRentals />} />
               <Route path="/my-rentals/:id"  element={<RentalDetail />} />
               <Route path="/cart"            element={<CartPage />} />

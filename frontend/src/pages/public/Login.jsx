@@ -39,7 +39,12 @@ const Login = () => {
       setUser(user);
       toast.success(`Welcome back, ${user.name}!`);
 
-      if (user.role === 'admin' || user.role === 'staff') {
+      // Return to the page the user was trying to reach before auth
+      const redirectTo = localStorage.getItem('redirectAfterAuth');
+      if (redirectTo) {
+        localStorage.removeItem('redirectAfterAuth');
+        navigate(redirectTo, { replace: true });
+      } else if (user.role === 'admin' || user.role === 'staff') {
         navigate('/admin', { replace: true });
       } else {
         navigate('/dashboard', { replace: true });

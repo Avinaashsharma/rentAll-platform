@@ -61,6 +61,7 @@ const ItemDetail = () => {
 
   const handleBook = () => {
     if (!isAuthenticated) {
+      localStorage.setItem('redirectAfterAuth', `/catalog/${id}`);
       toast.error('Please log in to book this item.');
       navigate('/login');
       return;
@@ -70,6 +71,7 @@ const ItemDetail = () => {
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
+      localStorage.setItem('redirectAfterAuth', `/catalog/${id}`);
       toast.error('Please log in to add items to cart.');
       navigate('/login');
       return;
