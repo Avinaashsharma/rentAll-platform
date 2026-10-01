@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { toast } from 'react-hot-toast';
-import { Search, SlidersHorizontal, X, Package, ShoppingCart, ChevronDown, Truck, Zap, Activity, Wind, Shield, Box, Wrench, Plus, Check } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Package, ShoppingCart, ChevronDown, Truck, Zap, Activity, Wind, Shield, Box, Wrench, Check } from 'lucide-react';
 import { motion, useMotionValue, useTransform, animate, useInView } from 'framer-motion';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
@@ -300,8 +300,7 @@ const ItemCatalog = () => {
                       className="flex-1 relative z-10 group/btn flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[11px] sm:text-sm font-bold rounded-lg sm:rounded-xl overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
                     >
                       <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
-                      <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 relative z-10 group-hover/btn:-rotate-12 transition-transform duration-300" />
-                      <span className="relative z-10 tracking-wide hidden sm:inline">Book Now</span>
+                      <span className="relative z-10 tracking-wide whitespace-nowrap">Book Now</span>
                     </button>
 
                     {/* Add to Cart Button */}
@@ -318,7 +317,7 @@ const ItemCatalog = () => {
                       {isInCart(item._id) ? (
                         <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                       ) : (
-                        <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                        <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-cart-bounce" />
                       )}
                       <span className="hidden sm:inline">{isInCart(item._id) ? 'In Cart' : 'Cart'}</span>
                     </button>
@@ -474,7 +473,8 @@ const ItemCatalog = () => {
 
 
 
-      {/* ── Footer ────────────────────────────────────────────────────── */}
+      {/* ── Footer (only in CustomerLayout — PublicLayout has its own) ── */}
+      {isAuthenticated && (
       <footer className="border-t border-slate-300/20 pt-8 sm:pt-12 pb-6 sm:pb-8 mt-10 sm:mt-16">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-10 mb-8 sm:mb-10">
           {/* About */}
@@ -553,6 +553,7 @@ const ItemCatalog = () => {
           <span className="flex items-center justify-center gap-1">Built with <span className="text-orange-500">♥</span> for professionals</span>
         </div>
       </footer>
+      )}
 
     </div>
   );

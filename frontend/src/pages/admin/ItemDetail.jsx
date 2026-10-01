@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Pencil, Trash2, Package, ChevronLeft, ChevronRight, X, DollarSign, Tag, FileText, ShoppingCart, Plus, Check } from 'lucide-react';
+import { ArrowLeft, Pencil, Trash2, Package, ChevronLeft, ChevronRight, X, DollarSign, Tag, FileText, ShoppingCart, Check } from 'lucide-react';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
 import { StatusBadge, ConditionBadge } from '../../components/item/ItemBadges';
@@ -219,7 +219,6 @@ const ItemDetail = () => {
                       className="flex-1 relative group/btn flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-3.5 sm:py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm sm:text-base font-bold rounded-xl overflow-hidden shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_25px_rgba(249,115,22,0.4)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
                     >
                       <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
-                      <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 relative z-10 group-hover/btn:-rotate-12 transition-transform duration-300" />
                       <span className="relative z-10 tracking-wide">Book Now</span>
                     </button>
                     <button
@@ -235,7 +234,7 @@ const ItemDetail = () => {
                       {isInCart(item._id) ? (
                         <><Check className="h-4 w-4 sm:h-5 sm:w-5" /><span>In Cart</span></>
                       ) : (
-                        <><Plus className="h-4 w-4 sm:h-5 sm:w-5" /><span>Add to Cart</span></>
+                        <><ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 animate-cart-bounce" /><span>Add to Cart</span></>
                       )}
                     </button>
                   </div>

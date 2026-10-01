@@ -141,7 +141,7 @@ const Home = () => {
             {/* Ghost CTA */}
             <Link
               to="/login"
-              className="group flex items-center justify-center shrink-0 flex-nowrap gap-1.5 sm:gap-2.5 px-3 py-3 sm:px-8 sm:py-3.5 rounded-xl bg-white/5 hover:bg-orange-500/10 text-slate-300 hover:text-orange-500 font-semibold text-[13px] sm:text-base backdrop-blur-md border border-white/5 hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-black/20"
+              className="hidden sm:flex group items-center justify-center shrink-0 flex-nowrap gap-1.5 sm:gap-2.5 px-3 py-3 sm:px-8 sm:py-3.5 rounded-xl bg-white/5 hover:bg-orange-500/10 text-slate-300 hover:text-orange-500 font-semibold text-[13px] sm:text-base backdrop-blur-md border border-white/5 hover:border-orange-500/30 transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-black/20"
             >
               <span className="whitespace-nowrap">Sign&nbsp;in&nbsp;to&nbsp;Portal</span>
             </Link>
@@ -204,7 +204,7 @@ const Home = () => {
                 iconBg: 'bg-orange-500/10 border-orange-700/40',
                 iconColor: 'text-orange-400',
                 title: 'Role-Based Workspaces',
-                desc: 'Custom dashboard experiences designed for Admins, Staff, and Customers — each with the right tools and permissions.',
+                desc: 'Custom dashboard experiences designed for Admins, Staff, and Customers , each with the right tools and permissions.',
               },
               {
                 icon: Calendar,

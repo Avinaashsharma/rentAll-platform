@@ -7,6 +7,7 @@ import PublicLayout from './layouts/PublicLayout';
 import ProtectedLayout from './layouts/ProtectedLayout';
 import AdminLayout from './layouts/AdminLayout';
 import CustomerLayout from './layouts/CustomerLayout';
+import CatalogLayout from './layouts/CatalogLayout';
 
 // Public pages
 import Home from './pages/public/Home';
@@ -85,13 +86,17 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="check-email" element={<CheckEmail />} />
             <Route path="verify-email" element={<VerifyEmail />} />
-            <Route path="catalog" element={<ItemCatalog />} />
-            <Route path="catalog/:id" element={<ItemDetail />} />
             <Route path="privacy" element={<PrivacyPolicy />} />
             <Route path="terms" element={<TermsConditions />} />
             <Route path="refund" element={<RefundPolicy />} />
             <Route path="cookie" element={<CookiePolicy />} />
             <Route path="*" element={<NotFound />} />
+          </Route>
+
+          {/* Catalog — guests see PublicLayout, authenticated users see CustomerLayout */}
+          <Route element={<CatalogLayout />}>
+            <Route path="/catalog" element={<ItemCatalog />} />
+            <Route path="/catalog/:id" element={<ItemDetail />} />
           </Route>
 
           {/* Customer-facing routes — wrapped in shared CustomerLayout shell */}

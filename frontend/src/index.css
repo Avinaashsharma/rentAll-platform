@@ -243,3 +243,28 @@ body {
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 52px 52px;
 }
+
+/* ── Cart Icon Movement Animation ── */
+@keyframes cart-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  15% {
+    transform: translateY(-3px) rotate(-10deg) scale(1.08);
+  }
+  30% {
+    transform: translateY(1px) rotate(6deg) scale(1.04);
+  }
+  45% {
+    transform: translateY(-1.5px) rotate(-3deg) scale(1.02);
+  }
+  60% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+.animate-cart-bounce {
+  display: inline-block;
+  transform-origin: center bottom;
+  animation: cart-bounce 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
