@@ -140,22 +140,6 @@ rentall/
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** >= 18.x
-- **MongoDB** : Atlas URI or local instance
-- **Cloudinary** account (for image uploads)
-- **Brevo** account (for transactional emails)
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/aveenavin/rentAll-platform
-cd rentAll-platform
-```
-
 ### Install All Dependencies
 
 ```bash
@@ -172,18 +156,6 @@ npm install
 # Frontend
 cd frontend
 npm install
-```
-
-### Configure Environment Variables
-
-```bash
-# Backend
-cp backend/.env.example backend/.env
-# Edit backend/.env with your values
-
-# Frontend
-cp frontend/.env.example frontend/.env
-# Edit frontend/.env with your values
 ```
 
 ### Run the Project Locally
@@ -207,50 +179,6 @@ cd frontend && npm run dev
 ```
 
 The Vite dev server proxies `/api` requests to the backend automatically.
-
----
-
-## Environment Variables
-
-### Backend (`backend/.env`)
-
-| Variable                   | Description                                    | Example                                      |
-| -------------------------- | ---------------------------------------------- | -------------------------------------------- |
-| `NODE_ENV`                 | Environment mode                               | `development`                                |
-| `PORT`                     | Server port                                    | `5000`                                       |
-| `MONGO_URI`                | MongoDB connection string                      |  |
-| `JWT_ACCESS_SECRET`        | Secret for signing access tokens               | *(random 64-char hex string)*                |
-| `JWT_REFRESH_SECRET`       | Secret for signing refresh tokens              | *(random 64-char hex string)*                |
-| `JWT_ACCESS_EXPIRES_IN`    | Access token expiry                            | `15m`                                        |
-| `JWT_REFRESH_EXPIRES_IN`   | Refresh token expiry                           | `7d`                                         |
-| `CLIENT_URL`               | Frontend URL (CORS + email links)              | `http://localhost:5173`                      |
-| `CLOUDINARY_CLOUD_NAME`    | Cloudinary cloud name                          | `your_cloudinary_cloud_name`                 |
-| `CLOUDINARY_API_KEY`       | Cloudinary API key                             | `your_cloudinary_api_key`                    |
-| `CLOUDINARY_API_SECRET`    | Cloudinary API secret                          | `your_cloudinary_api_secret`                 |
-| `BREVO_API_KEY`            | Brevo transactional email API key              | `your_brevo_api_key`                         |
-| `BREVO_SENDER_EMAIL`       | Verified sender email in Brevo                 | `noreply@yourdomain.com`                     |
-| `BREVO_SENDER_NAME`        | Display name for outgoing emails               | `RentAll`                                    |
-
-**Additional production variables:**
-
-| Variable            | Description                                         | Example                              |
-| ------------------- | --------------------------------------------------- | ------------------------------------ |
-| `COOKIE_SAME_SITE`  | Set to `none` for cross-domain frontend/backend      | `none`                               |
-| `ADMIN_EMAIL`       | Default admin account email (created on first start)  | `admin@yourdomain.com`               |
-| `ADMIN_PASSWORD`    | Default admin account password                        | *(strong password, min 8 chars)*     |
-| `SEED_DATA`         | Set to `true` to seed demo data in production         | `false`                              |
-
-Generate secure JWT secrets with:
-
-```bash
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-```
-
-### Frontend (`frontend/.env`)
-
-| Variable             | Description                          | Example                             |
-| -------------------- | ------------------------------------ | ----------------------------------- |
-| `VITE_API_BASE_URL`  | Backend API base URL                 | `http://localhost:5000/api/v1`      |
 
 ---
 
@@ -363,38 +291,16 @@ The following security measures are implemented in the current codebase:
 
 ---
 
-## Production Deployment
 
-### Architecture
 
-```
-┌──────────────┐     ┌───────────────┐     ┌────────────────┐
-│   Vercel     │────▶│    Render     │────▶│  MongoDB Atlas │
-│  (Frontend)  │     │   (Backend)   │     │   (Database)   │
-└──────────────┘     └───────┬───────┘     └────────────────┘
-                             │
-                    ┌────────┴────────┐
-                    │                 │
-              ┌─────▼─────┐   ┌──────▼──────┐
-              │ Cloudinary │   │    Brevo    │
-              │  (Images)  │   │   (Email)   │
-              └───────────┘   └─────────────┘
-```
+## Production deployment
 
 ### Backend → Render
 
 1. Go to **Render Dashboard → New → Web Service** → connect your repository.
 2. Set **Root Directory** to `backend`, **Build Command** to `npm install`, **Start Command** to `npm start`.
 3. Add all environment variables from `backend/.env.production.example`.
-4. Key variables to set:
-   - `NODE_ENV=production`
-   - `MONGO_URI` : your MongoDB Atlas connection string
-   - `JWT_ACCESS_SECRET` / `JWT_REFRESH_SECRET` : unique random secrets
-   - `CLIENT_URL` : your deployed Vercel frontend URL
-   - `COOKIE_SAME_SITE=none` : required for cross-domain cookies
-   - `CLOUDINARY_*` : your Cloudinary credentials
-   - `BREVO_*` : your Brevo API key and sender details
-   - `ADMIN_EMAIL` / `ADMIN_PASSWORD` : initial admin credentials
+
 
 ### Frontend → Vercel
 
@@ -412,7 +318,7 @@ The `vercel.json` in the frontend directory handles SPA routing rewrites.
 | Backend alive      | `GET https://your-backend.onrender.com/health` → `{"status":"ok"}`          |
 | Database connected | Server logs show `MongoDB connected: ...`                                   |
 | Auth flow works    | Register → verify email → login → check cookies in DevTools                |
-| Image uploads      | Create an item with images → verify Cloudinary URLs load                    |
+|
 | No source maps     | DevTools → Sources → no `.jsx` files visible                                |
 | Error handling     | Hit a bad route → response is `{"status":"error","message":"..."}` (no stack trace) |
 
