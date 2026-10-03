@@ -26,12 +26,9 @@ export const AuthProvider = ({ children }) => {
         const data = await getMe();
         if (!cancelled) setUser(data.data.user);
       } catch {
-        // DO NOT call setUser(null) here.
-        // user is already initialized as null, so this is a no-op in the
-        // normal case. But if login has already called setUser(user) while
-        // this getMe() was still in-flight, calling setUser(null) here
-        // would WIPE the freshly-logged-in user — causing the exact
-        // "redirect back to Sign In 1-2s after login" bug in incognito.
+        // user is already null — nothing to clear.
+        // DO NOT call setUser(null) here: if login ran while this
+        // getMe() was in-flight, it would wipe the logged-in user.
       } finally {
         if (!cancelled) setIsLoading(false);
       }

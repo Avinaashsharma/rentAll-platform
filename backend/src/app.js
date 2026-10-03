@@ -43,9 +43,14 @@ const allowedOrigins = process.env.CLIENT_URL
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, curl, Postman)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      // When Origin is absent (same-origin requests via Vite proxy, mobile apps,
+      // curl, etc.), reflect the primary allowed origin so the response always
+      // carries Access-Control-Allow-Origin alongside Access-Control-Allow-Credentials.
+      // Without an explicit origin, the cors package omits ACAO while still setting
+      // ACAC: true — Chrome Incognito treats that as invalid and refuses to store
+      // Set-Cookie cookies, breaking post-login auth.
+      if (!origin) return callback(null, allowedOrigins[0]);
+      if (allowedOrigins.includes(origin)) return callback(null, origin);
       callback(new Error(`CORS: origin '${origin}' not allowed`));
     },
     credentials: true,
