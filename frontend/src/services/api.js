@@ -24,10 +24,15 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // Skip retry logic for auth endpoints AND session-check (/auth/me).
+    // /auth/me is called during session restoration — a 401 there simply means
+    // "no active session" and should NOT trigger a refresh cascade or fire
+    // auth:session-expired (which would wipe freshly-set login state).
     const isAuthEndpoint =
       originalRequest.url.includes('/auth/login') ||
       originalRequest.url.includes('/auth/register') ||
-      originalRequest.url.includes('/auth/refresh');
+      originalRequest.url.includes('/auth/refresh') ||
+      originalRequest.url.includes('/auth/me');
 
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
       if (isRefreshing) {

@@ -19,18 +19,24 @@ export const AuthProvider = ({ children }) => {
 
   // Restore session on first mount by calling /me
   useEffect(() => {
+    let cancelled = false;
+
     const restoreSession = async () => {
       try {
         const data = await getMe();
-        setUser(data.data.user);
+        if (!cancelled) setUser(data.data.user);
       } catch {
-        setUser(null);
+        if (!cancelled) setUser(null);
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     restoreSession();
+
+    // StrictMode double-mount: prevent the first (stale) call from
+    // updating state after React unmounts and remounts the component.
+    return () => { cancelled = true; };
   }, []);
 
   // Listen for forced session expiry from Axios interceptor
