@@ -11,6 +11,9 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
+        // Strip the browser's Origin header so the backend doesn't
+        // CORS-reject when Vite falls back to a different port (e.g. 5174).
+        headers: { Origin: '' },
       },
     },
   },
